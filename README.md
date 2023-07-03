@@ -42,3 +42,15 @@ Concurrent requests to purchase the same seat should not result in multiple purc
 2. **POST /cinemas/:cinemaId/purchase/:seatNumber** - Purchase a specific seat number in cinema C.
 
    - Response: `{ "message": "Seat purchased successfully." }` or `{ "message": "Seat already purchased." }`
+
+3. **POST /cinemas/:cinemaId/purchase-consecutive** - Purchase the first two free consecutive seats in cinema C.
+   - Response: `{ "seats": [seat1, seat2] }` or `{ "message": "No two consecutive seats available." }`
+
+## Important Notes
+- Concurrent requests to purchase the same seat are handled to avoid multiple purchases.
+- The API uses Redis as the data store for simplicity. Ensure that Redis is running and accessible.
+
+## Assumptions
+- The cinema seats are numbered sequentially from 1 to N.
+- The API does not handle user authentication or user-specific purchases for simplicity.
+- The API does not handle seat reservations or ticket pricing for simplicity.

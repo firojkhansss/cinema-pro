@@ -1,5 +1,6 @@
 import Redis from "ioredis";
 import { promisify } from "util";
+
 class Lock {
   private client: Redis;
   private getAsync: any;
@@ -12,6 +13,7 @@ class Lock {
     this.setAsync = promisify(this.client.set).bind(this.client);
     this.delAsync = promisify(this.client.del).bind(this.client);
   }
+
   async acquire(lockKey: string): Promise<boolean> {
     const result = await this.setAsync(lockKey, "locked", "NX", "EX", 10);
     return result === "OK";
@@ -22,4 +24,5 @@ class Lock {
     return result === 1;
   }
 }
+
 export { Lock };

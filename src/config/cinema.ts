@@ -1,4 +1,4 @@
-import { Lock } from "./Lock";
+import { Lock } from "./lock";
 interface Seat {
   seatNumber: number;
   isOccupied: boolean;
@@ -51,6 +51,38 @@ class Cinema {
     this.lock.release(lockKey);
 
     return { seatNumber };
+  }
+
+  // Purchase the first two free consecutive seats in a cinema
+  async purchaseConsecutiveSeats(cinemaId: string): Promise<any> {
+    const cinema = this.getCinemaById(cinemaId);
+    const seats = cinema.seats;
+
+    for (let i = 0; i < seats.length - 1; i++) {
+      const currentSeat = seats[i];
+      const nextSeat = seats[i + 1];
+
+      const currentLockKey = `${cinemaId}-${currentSeat.seatNumber}`;
+      const nextLockKey = `${cinemaId}-${nextSeat.seatNumber}`;
+
+      // Acquire locks for both seats
+      await this.lock.acquire(currentLockKey);
+      await this.lock.acquire(nextLockKey);
+
+      if (!currentSeat.isOccupied && !nextSeat.isOccupied) {
+        currentSeat.isOccupied = true;
+        nextSeat.isOccupied = true;
+        this.lock.release(currentLockKey);
+        this.lock.release(nextLockKey);
+        return { seats: [currentSeat.seatNumber, nextSeat.seatNumber] };
+      }
+
+      // Release locks if seats are not available
+      this.lock.release(currentLockKey);
+      this.lock.release(nextLockKey);
+    }
+
+    return { error: "No consecutive seats available" };
   }
 
   // Utility method to get a cinema by ID
