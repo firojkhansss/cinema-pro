@@ -1,12 +1,15 @@
+// src/app.ts
 import express, { Request, Response } from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import { Cinema } from "./cinema";
+
 const app = express();
-const port = 3000;
+const port = 5000;
 
 app.use(bodyParser.json());
 app.use(cors());
+
 const cinema = new Cinema();
 
 // API endpoint for creating a new cinema with N seats
@@ -17,14 +20,11 @@ app.post("/cinema", (req: Request, res: Response) => {
 });
 
 // API endpoint for purchasing a specific seat number in cinema C
-app.post(
-  "/cinema/:cinemaId/purchase/:seatNumber",
-  async (req: Request, res: Response) => {
-    const { cinemaId, seatNumber } = req.params;
-    const result = await cinema.purchaseSeat(cinemaId, parseInt(seatNumber));
-    res.json(result);
-  }
-);
+app.post("/cinema/:cinemaId/purchase/:seatNumber", async (req: Request, res: Response) => {
+  const { cinemaId, seatNumber } = req.params;
+  const result = await cinema.purchaseSeat(cinemaId, parseInt(seatNumber));
+  res.json(result);
+});
 
 // API endpoint for purchasing the first two free consecutive seats in cinema C
 app.post("/cinema/:cinemaId/purchase", async (req: Request, res: Response) => {
@@ -34,5 +34,5 @@ app.post("/cinema/:cinemaId/purchase", async (req: Request, res: Response) => {
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening on port http://localhost:${port}!`);
+  console.log(`Server running at http://localhost:${port}`);
 });

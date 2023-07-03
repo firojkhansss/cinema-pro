@@ -54,3 +54,8 @@ Concurrent requests to purchase the same seat should not result in multiple purc
 - The cinema seats are numbered sequentially from 1 to N.
 - The API does not handle user authentication or user-specific purchases for simplicity.
 - The API does not handle seat reservations or ticket pricing for simplicity.
+
+Please refer to the source code for detailed implementation and logic.
+
+Author: Firoj Mansuri
+Date: 3rd July 2023
