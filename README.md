@@ -17,7 +17,7 @@ Concurrent requests to purchase the same seat should not result in multiple purc
 
 - npm (Node Package Manager)
 
-- Redis server (used as the data store)
+- Redis server (used as the data store install from this website: https://github.com/microsoftarchive/redis/releases   Redis-x64-3.0.504.msi file donwload)
 
 ## Getting Started
 
