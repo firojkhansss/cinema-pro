@@ -1,3 +1,4 @@
+import { Lock } from "./Lock";
 interface Seat {
   seatNumber: number;
   isOccupied: boolean;
@@ -10,7 +11,11 @@ interface CinemaData {
 
 class Cinema {
   private cinemas: CinemaData[] = [];
+  private lock: Lock;
 
+  constructor() {
+    this.lock = new Lock(); // Initialize the lock for concurrency control
+  }
   // Create a new cinema with N seats and return the cinema ID
   createCinema(seats: number): string {
     const cinemaId = this.generateCinemaId();
@@ -34,14 +39,16 @@ class Cinema {
 
     // Acquire the lock for the seat before making the purchase
     const lockKey = `${cinemaId}-${seatNumber}`;
+    await this.lock.acquire(lockKey);
 
     if (seat.isOccupied) {
       // Seat is already purchased
-
+      this.lock.release(lockKey);
       return { error: "Seat is already occupied" };
     }
 
     seat.isOccupied = true;
+    this.lock.release(lockKey);
 
     return { seatNumber };
   }

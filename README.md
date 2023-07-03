@@ -2,7 +2,6 @@
 
 This is a simple web API built with Node.js and TypeScript to handle ticket purchases for a cinema.
 
-
 ## Problem Statement
 
 The API should provide the following operations:
@@ -20,7 +19,6 @@ Concurrent requests to purchase the same seat should not result in multiple purc
 
 - Redis server (used as the data store)
 
-
 ## Getting Started
 
 1. Clone this repository to your local machine.
@@ -28,6 +26,7 @@ Concurrent requests to purchase the same seat should not result in multiple purc
 2. Install dependencies by running: `npm install`
 
 3. Make sure you have Redis installed and running on your system.
+
 ## Running the API
 
 1. Run the API using the following command: `npm start`
@@ -36,5 +35,10 @@ Concurrent requests to purchase the same seat should not result in multiple purc
 ## Endpoints
 
 1. **POST /cinemas** - Create a cinema with N seats.
+
    - Request body: `{ "seats": N }`
    - Response: `{ "cinemaId": "CINEMA_ID" }`
+
+2. **POST /cinemas/:cinemaId/purchase/:seatNumber** - Purchase a specific seat number in cinema C.
+
+   - Response: `{ "message": "Seat purchased successfully." }` or `{ "message": "Seat already purchased." }`
