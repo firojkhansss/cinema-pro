@@ -27,6 +27,42 @@ class Cinema {
     return cinemaId;
   }
 
+  // Purchase a specific seat number in a cinema
+  async purchaseSeat(cinemaId: string, seatNumber: number): Promise<any> {
+    const cinema = this.getCinemaById(cinemaId);
+    const seat = this.getSeatByNumber(cinema, seatNumber);
+
+    // Acquire the lock for the seat before making the purchase
+    const lockKey = `${cinemaId}-${seatNumber}`;
+
+    if (seat.isOccupied) {
+      // Seat is already purchased
+
+      return { error: "Seat is already occupied" };
+    }
+
+    seat.isOccupied = true;
+
+    return { seatNumber };
+  }
+
+  // Utility method to get a cinema by ID
+  private getCinemaById(cinemaId: string): CinemaData {
+    const cinema = this.cinemas.find((c) => c.id === cinemaId);
+    if (!cinema) {
+      throw new Error("Cinema not found");
+    }
+    return cinema;
+  }
+  // Utility method to get a seat by seat number
+  private getSeatByNumber(cinema: CinemaData, seatNumber: number): Seat {
+    const seat = cinema.seats.find((s) => s.seatNumber === seatNumber);
+    if (!seat) {
+      throw new Error("Seat not found");
+    }
+    return seat;
+  }
+
   // Utility method to generate a unique cinema ID
   private generateCinemaId(): string {
     return Date.now().toString(36);

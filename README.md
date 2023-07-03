@@ -14,9 +14,6 @@ Concurrent requests to purchase the same seat should not result in multiple purc
 
 ## Requirements
 
-
-
-
 - Node.js
 
 - npm (Node Package Manager)
@@ -24,15 +21,20 @@ Concurrent requests to purchase the same seat should not result in multiple purc
 - Redis server (used as the data store)
 
 
-
-
 ## Getting Started
-
-
-
 
 1. Clone this repository to your local machine.
 
 2. Install dependencies by running: `npm install`
 
 3. Make sure you have Redis installed and running on your system.
+## Running the API
+
+1. Run the API using the following command: `npm start`
+2. The API will be available at `http://localhost:3000` by default.
+
+## Endpoints
+
+1. **POST /cinemas** - Create a cinema with N seats.
+   - Request body: `{ "seats": N }`
+   - Response: `{ "cinemaId": "CINEMA_ID" }`
